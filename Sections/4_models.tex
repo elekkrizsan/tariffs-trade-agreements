@@ -1,0 +1,61 @@
+\section{Models}\label{sec:models}
+
+Following \textcite{amiti_whos_2020}, I estimate the effect of tariffs on prices and volumes using a dynamic event study framework with fixed effects, which has a difference-in-differences interpretation. The outcome variable and the change in tariffs are both logged, permitting the interpretation of the difference-in-differences coefficient as the elasticities of prices and volumes with respect to tariffs. As discussed earlier, I introduce a dummy variable for whether a country does or does not have a trade agreement. This permits a triple-difference interpretation. 
+
+To calibrate the model and understand how this restricted sample compares to the universal results produced by \textcite{amiti_whos_2020}, I initially use the static event study model
+
+    \begin{equation}
+        \ln x_{ijt} = \eta_{ij} + \delta_{jt} + \mu_{it} + \sum_{s = -\underline{T}}^{\overline{T}} \beta_s \left( \mathbf{1}_{ijs} \times \ln \left( \frac{1 + \mathit{tariff_{ijs}}}{1 + \mathit{tariff_{ij0}}} \right) \right) \notag + \epsilon_{ijt}
+        \label{eq:calibration}
+    \end{equation}
+
+where $x$ is the outcome variable, defined as either price or volume, and $\mathbf{1}_{ijs}$ represents a vector of binary indicator variables for each month in $T$, where $-T$ and $T$ are the lower and upper bounds of the event estimation window. The estimation window extends from 12 months before the last untreated month to 12 months after, indicated by $-\underline{T} <= s <= {\overline{T}}$ where $T=24$. The specification uses the log change in tariffs imposed on a country-product pair compared to the last pre-treatment month, where the pre-treatment month $t=0$ is defined as the month before tariffs were applied, and is used as the omitted baseline. The model's coefficients are therefore interpretable as outcome variable's elasticity with respect to log change in tariffs -- the percent difference in prices between a tariffed and non-tariffed product at that particular month. Thus, a country-product pair $ij$ with a 10\% tariff imposed on it will have a price or volume $(\beta_{ijs} \times 100)\%$ higher on average than an untariffed product in the given month $s$. This specification also implies that each coefficient represents the elasticity of the outcome variable with respect to log change in tariffs relative to the omitted baseline -- the last untreated month. 
+
+Following \textcite{amiti_whos_2020}, I include country-product ($\eta_{ij}$), product-time ($\delta_{jt}$), and country-time ($\mu_{it}$) fixed effects. $\eta_{ij}$ absorbs time-invariant factors such as quality or comparative advantage that may influence bilateral trade volumes or prices. $\delta_{jt}$ absorbs time-varying factors that affect US imports of a particular product from all source countries, such as common technological change or changing consumer preferences. Finally, $\mu_{it}$ absorbs time-varying factors that affect imports from a particular country across all products, such as exchange rate fluctuation. To ensure the sample is comparable across tariffed and non-tariffed products, I follow \textcite{amiti_whos_2020} in restricting the sample to HS4 categories affected by at least one of the first three tariff waves. 
+
+I apply this model to the data after restricting the sample to the first three tariff waves. This allows for a comparison of the restricted sample's trends to the general trends observed by Amiti, which can clarify the interpretation of the differential effect of trade agreements on the effect of tariffs, as the restricted sample may not be representative of all country-product combinations. 
+
+% variables in dynamic event study without heterogeneity
+\begin{table}[H]
+    \centering
+    \caption{Model variables and descriptions}\label{tab:model_variables}
+    \begin{tabular}{p{0.14\linewidth} p{0.38\linewidth} p{0.38\linewidth}}
+        \hline
+        \textbf{Variable} & \textbf{Description} & \textbf{Purpose}\\
+        \hline
+        $\ln x_{ijt}$ & Log import price or value for source country $i$ and product $j$ at time $t$. & This allows the interpretation of the outcome variable as a percent change. \\[1ex]
+        $\eta_{ij}$ & Country-product fixed effect. & This absorbs time-invariant factors such as quality or comparative advantage that may influence bilateral trade volumes or prices. \\[1ex]
+        $\delta_{jt}$ & Product-time fixed effect. & This absorbs time-varying forces that affect imports of a particular product across all countries (e.g. common technological change). \\[1ex]
+        $\mu_{it}$ & Country-time fixed effect. & This absorbs time-varying forces that affect imports from a particular country across all products (e.g. exchange rates). \\[1ex]
+        $\mathbf{1}_{ijs}$ & Dummy equal to one when the observation is after a tariff was imposed, where $t=0$ is the last untreated month and the excluded period. & \\[1ex]
+        $\ln \left( \frac{1 + tariff_{ijs}}{1 + tariff_{ij0}} \right)$ & Log change in tariffs between month $s$ and the last untreated month $s=0$ for country $i$ and product $j$. & This allows the interpretation of the coefficient $\beta_s$ as the outcome variable's differential elasticity of tariff increases. \\[1ex]
+        \hline
+    \end{tabular}
+\end{table}
+
+I then run the following regression, separating it by bilateral trade agreement status
+
+    \begin{equation}
+        \begin{gathered}
+            \ln x_{ijt} = \eta_{ij} + \delta_{jt} + \mu_{it} + \sum_{s = -\underline{T}}^{\overline{T}} \beta_s^{A} \left( \mathbf{1}_{ijs} \times \ln \frac{1 + \mathit{tariff}_{ijs}}{1 + \mathit{tariff}_{ij0}} \right) + \varepsilon_{ijt}, \\
+            A \in \{\textnormal{agreement}, \textnormal{no agreement}\}
+        \end{gathered}
+        \label{eq:agreement}
+    \end{equation}
+
+where $A$ indicates whether the regression is run on the subsample of countries with trade agreements or without trade agreements. This is once again a dynamic event study framework using fixed effects with a difference-in-differences interpretation, where the first difference is between pre and post-treatment, and the second difference is between tariffed and non-tariffed country-product pairs. This specification results in two regressions: one for each subsample by bilateral trade agreement status. I then compute the difference between the corresponding coefficients across the two regressions using the difference in means that also combines the coefficients' confidence intervals. This results in a triple-differences interpretation, where the first difference is between pre and post-treatment, the second difference is between tariffed and non-tariffed country-product pairs, and the third difference is between countries with and without bilateral trade agreements with the US. 
+
+To investigate further heterogeneities, I run the following regression -- essentially Equation~\ref{eq:heterogeneity} applied to each subgroup of interest: 
+
+    \begin{equation}
+        \begin{gathered}
+            \ln x_{ijt} = \eta_{ij} + \delta_{jt} + \mu_{it} + \sum_{s = -\underline{T}}^{\overline{T}} \beta_s^{A,B} \left( \mathbf{1}_{ijs} \times \ln \frac{1 + \mathit{tariff}_{ijs}}{1 + \mathit{tariff}_{ij0}} \right) + \varepsilon_{ijt}, \\
+            A \in \{\textnormal{agreement}, \textnormal{no agreement}\}
+        \end{gathered}
+        \label{eq:heterogeneity}
+    \end{equation}
+
+where $B$ is the group of interest. 
+
+% ---------------------------------------------------------------%
+% ---------------------------------------------------------------%

@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{threeparttable}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\doublespacing
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+\usepackage[authordate, backend=biber]{biblatex-chicago}
+\addbibresource{../references.bib}
+\usepackage[bottom]{footmisc}
+
+\usepackage{float}
+\usepackage{etoolbox}
+\AtBeginEnvironment{table}{\singlespacing}
+\AtBeginEnvironment{longtable}{\singlespacing}
+
+% abstract stuff
+\AtBeginEnvironment{abstract}{\singlespacing}
+\makeatletter
+\renewenvironment{abstract}{\small\quotation}{\endquotation}
+\makeatother
+
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{longtable}
+\captionsetup[table]{skip=8pt}
+\usepackage{hyperref}
+\title{Do Stronger Trade Ties Mitigate Tariff Shocks? Evidence from 2018 US Tariffs}
+\author{Elek Krizsán\thanks{George Washington University, Department of Economics \& Elliott School of International Affairs. Contact: elekkrizsan@gwu.edu; elekkrizsan@gmail.com. Acknowledgements: I thank Professor Tara Sinclair and Chesapeake Dowdy for guidance throughout this project, as well as Professor Tomas Williams, Professor Maggie Chen, Adrian Torres-Trigo, Cage Englander, Adam Benko-Badr, Vidya Shah, Ria Saxena, Francisco Rotman, Devika Mukherjee, Mish Quan, Natalie Arbatman, and Satya Vangoor for helpful comments and suggestions. I also express appreciation to Anthropic for developing Claude, which has been a valuable thinking partner. I am grateful to Amiti, Redding, and Weinstein for making their data and replication code publicly available. All remaining errors are my own.}}
+\date{May 2026}
+
+\begin{document}
+
+    \maketitle
+
+    \input{01_abstract.tex}
+
+    \clearpage
+
+    \input{1_introduction.tex}
+
+    \input{3_data.tex}
+
+    \input{4_models.tex}
+  
+    \input{5_results.tex}
+
+    \input{6_discussion-robustness.tex}
+
+    \input{7_conclusion.tex}
+    \clearpage
+    \printbibliography
+    \clearpage
+    %\appendix
+    %\input{appendix}
+
+\end{document}

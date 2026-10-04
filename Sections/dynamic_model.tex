@@ -1,0 +1,55 @@
+\section{Model}\label{sec:dynamic_model}
+
+My approach draws from \textcite{amiti_whos_2020}, who study the effect of tariffs on prices and value over a 12-month period. They use a dynamic event study model with three-way high-dimensional fixed effects to identify how price and value elasticities in response to tariffs evolved in the 12 months following tariffs’ imposition. The model incorporates country-product, product-time, and country-time fixed effects, controlling for differences in products across countries, global product shocks, and country-specific macroeconomic shocks respectively. My model extends this framework, introducing a triple interaction to identify the moderating effect of trade agreement depth.
+
+I first introduce a baseline model following \textcite{amiti_whos_2020} with the sole addition of a dummy for trade agreement depth. \footnote{See Table \ref{tab:model_variables} for variable descriptions.}
+    \begin{align}
+        \ln x_{ijt} = \; & \eta_{ij} + \delta_{jt} + \mu_{it} \notag \\
+        + \; & \sum_{s = -\underline{T}}^{\overline{T}} \gamma_s \left( \mathbf{1}_{ijs} \times \ln \left( \frac{1 + \mathit{tariff_{ijs}}}{\mathit{1 +  tariff_{ij0}}} \right) \times \mathit{deep_{i}} \right) \notag \\
+        + \; & \epsilon_{ijt}
+    \end{align}
+
+I restrict the sample to only the first three tariff waves, which applied generally, whereas subsequent Section 301 tariffs applied only to China, and extended to far more products than the initial three waves. As a result, the model can identify the impact of tariffs on a common set of country-product pairs. This restriction also permits the extension of the 12-month timeframe studied by \textcite{amiti_whos_2020} to 18 months. 
+
+I then additionally control for bilateral interactions between the three interaction terms: time-tariff, time-depth, and tariff-depth. 
+    \begin{align}
+        \ln x_{ijt} = \; & \eta_{ij} + \delta_{jt} + \mu_{it} \notag \\
+        + \; & \sum_{s = -\underline{T}}^{\overline{T}} \beta_s \left( \mathbf{1}_{ijs} \times \ln \left( \frac{\mathit{1 + tariff_{ijs}}}{\mathit{1 + tariff_{ij0}}} \right) \right) \notag \\
+        + \; & \sum_{s = -\underline{T}}^{\overline{T}} \lambda_s \left( \mathbf{1}_{ijs} \times \mathit{deep_{i}} \right) \notag \\
+        + \; & \phi \left( \ln \left( \frac{\mathit{1 + tariff_{ijs}}}{\mathit{1 + tariff_{ij0}}} \right) \times \mathit{deep_{i}} \right) \notag \\
+        + \; & \sum_{s = -\underline{T}}^{\overline{T}} \gamma_s \left( \mathbf{1}_{ijs} \times \ln \left( \frac{\mathit{1 + tariff_{ijs}}}{\mathit{1 + tariff_{ij0}}} \right) \times \mathit{deep_{i}} \right) \notag \\
+        + \; & \epsilon_{ijt}
+    \end{align}
+
+\begingroup
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\begin{longtable}{p{0.14\linewidth} p{0.38\linewidth} p{0.38\linewidth}}
+\caption{Model variables and descriptions}\label{tab:model_variables}\\
+\hline\hline
+\textbf{Variable} & \textbf{Description} & \textbf{Purpose}\\
+\hline\hline
+\endfirsthead
+\hline\hline
+\textbf{Variable} & \textbf{Description} & \textbf{Purpose}\\
+\hline\hline
+\endhead
+\\[-1.5ex]
+            
+            $\ln x_{ijt}$ & Log import price or value for source country $i$ and product $j$ at time $t$. & This allows the interpretation of the outcome variable as a percent change. \\[1ex]
+            
+            $\eta_{ij}$ & Country-product fixed effect. & This absorbs time-invariant factors such as quality or comparative advantage that may influence bilateral trade volumes or prices. \\[1ex]
+
+            $\delta_{jt}$ & Product-time fixed effect. & This absorbs time-varying forces that affect imports of a particular product across all countries (e.g. common technological change). \\[1ex]
+
+            $\mu_{it}$ & Country-time fixed effect. & This absorbs time-varying forces that affect imports from a particular country across all products (e.g. exchange rates). \\[1ex]
+
+            $\mathbf{1}_{ijs}$ & Indicator equal to one when observation is $s$ months from tariffs' imposition, where $s=0$ is the last untreated month and the excluded period. & This allows the interpretation of coefficients relative to the pre-treatment period. \\[1ex]
+
+            $\ln \left( \frac{1 + tariff_{ijs}}{1 +  tariff_{ij0}} \right)$ & Log change in tariffs between month $s$ and the last untreated month $s=0$ for country $i$ and product $j$. & This allows the interpretation of the coefficient $\gamma_s$ as the outcome variable's differential elasticity of tariff increases. \\[1ex]
+
+            $deep_i$ & $deep_i = 1$ when country $i$ has a deep trade agreement with the United States, defined as an agreement with 10 or more horizontal policy provisions. Countries with shallow agreements or no agreement with the United States are the omitted baseline $deep_i = 0$. & This allows for the triple-differences interpretation. \\[1ex] 
+\hline
+\end{longtable}
+\endgroup
+
